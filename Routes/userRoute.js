@@ -7,7 +7,7 @@ const userRouter = express.Router()
 userRouter.route("/signup").post(signup)
 userRouter.route("/signin").post(signIn)
 userRouter.route("/logout").post(isLogedIn, logOut)
-userRouter.route("/verifyemail").post(verifyEmail); 
+userRouter.route("/verify/:token").post(verifyEmail); 
 
 userRouter.route("/single/:id").get(getUserById).delete(getUserByIdAndDelete).patch( updateUser)
 
