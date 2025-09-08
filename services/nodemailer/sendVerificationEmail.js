@@ -10,7 +10,7 @@ const sendVerificationEmail = async (email, token, name) => {
     <p style="font-size: 1rem; line-height: 1.5; color: #dddddd;">
       Thanks for signing up with <strong>Mbox Movies</strong>! To complete your registration and activate your account, please verify your email by clicking the button below:
     </p>
-    <a href="http://localhost:5173/verify/${token}" 
+    <a href="https://mbox-movies-backend.onrender.com/verify/${token}" 
        style="display: inline-block; margin-top: 1.5rem; background-color: #e50914; color: #ffffff; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 5px; font-weight: bold;">
        Verify Email
     </a>
