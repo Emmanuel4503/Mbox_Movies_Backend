@@ -19,7 +19,7 @@ connectDB();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501'], 
+  origin: ['https://mbox-movies-front-end.vercel.app', 'https://mboxadmin.netlify.app',], 
   credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));
