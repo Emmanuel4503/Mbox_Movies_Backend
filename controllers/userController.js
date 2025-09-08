@@ -66,7 +66,8 @@ async function signup(req, res, next) {
 
 const verifyEmail = async (req, res, next) => {
   try {
-    const { token } = req.body; 
+    // Get token from either URL params (GET request) or request body (POST request)
+    const token = req.params.token || req.body.token;
 
     if (!token) {
       return res.status(400).json({
@@ -97,6 +98,52 @@ const verifyEmail = async (req, res, next) => {
       isVerified: true
     });
 
+    // For GET requests (email links), redirect to success page or send HTML response
+    if (req.method === 'GET') {
+      return res.status(200).send(`
+        <html>
+          <head>
+            <title>Email Verified - Mbox Movies</title>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                background-color: #121212; 
+                color: white; 
+                text-align: center; 
+                padding: 50px; 
+              }
+              .container { 
+                max-width: 500px; 
+                margin: auto; 
+                background: #1f1f1f; 
+                padding: 30px; 
+                border-radius: 10px; 
+              }
+              .success { color: #4CAF50; }
+              .btn { 
+                background-color: #e50914; 
+                color: white; 
+                padding: 10px 20px; 
+                text-decoration: none; 
+                border-radius: 5px; 
+                display: inline-block; 
+                margin-top: 20px; 
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1 class="success">✅ Email Verified Successfully!</h1>
+              <p>Welcome to Mbox Movies, ${user.name}!</p>
+              <p>Your account has been activated. You can now sign in and start exploring movies.</p>
+              <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/signin" class="btn">Go to Sign In</a>
+            </div>
+          </body>
+        </html>
+      `);
+    }
+
+    // For POST requests (API calls), return JSON response
     return res.status(200).json({
       status: "success",
       message: "Email verified successfully!",
@@ -109,7 +156,42 @@ const verifyEmail = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error('Email verification error:', error);
+    
+    // Handle errors differently for GET vs POST requests
+    if (req.method === 'GET') {
+      return res.status(500).send(`
+        <html>
+          <head>
+            <title>Verification Error - Mbox Movies</title>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                background-color: #121212; 
+                color: white; 
+                text-align: center; 
+                padding: 50px; 
+              }
+              .container { 
+                max-width: 500px; 
+                margin: auto; 
+                background: #1f1f1f; 
+                padding: 30px; 
+                border-radius: 10px; 
+              }
+              .error { color: #f44336; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1 class="error">❌ Verification Failed</h1>
+              <p>There was an error verifying your email. Please try again or contact support.</p>
+            </div>
+          </body>
+        </html>
+      `);
+    }
+    
     return res.status(500).json({
       status: "error",
       message: "Server error while verifying email",
