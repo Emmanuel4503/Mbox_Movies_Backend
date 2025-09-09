@@ -136,7 +136,7 @@ const verifyEmail = async (req, res, next) => {
               <h1 class="success">✅ Email Verified Successfully!</h1>
               <p>Welcome to Mbox Movies, ${user.name}!</p>
               <p>Your account has been activated. You can now sign in and start exploring movies.</p>
-              <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/signin" class="btn">Go to Sign In</a>
+              <a href="${'https://mbox-movies-front-end.vercel.app'}/signin" class="btn">Go to Sign In</a>
             </div>
           </body>
         </html>
