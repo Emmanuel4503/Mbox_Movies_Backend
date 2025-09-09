@@ -67,7 +67,7 @@ async function signup(req, res, next) {
 const verifyEmail = async (req, res, next) => {
   try {
     // Get token from either URL params (GET request) or request body (POST request)
-    const token = req.params.token || req.body.token;
+   const token = req.params.token || req.body.token;
 
     if (!token) {
       return res.status(400).json({
